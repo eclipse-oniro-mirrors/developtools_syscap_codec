@@ -14,6 +14,8 @@
  */
 
 #include "common_method.h"
+#include "context_tool.h"
+#include "endian_internal.h"
 #include <stdlib.h>
 
 void SafeFree(char *pointer)
@@ -21,4 +23,20 @@ void SafeFree(char *pointer)
     if ((pointer) != NULL) {
         free(pointer);
     }
+}
+
+int32_t ValidateRpcidInput(const char *input, uint32_t inputLen, uint16_t *sysCapLength)
+{
+    // validate input buffer length before reading to prevent out-of-bounds read
+    if (input == NULL || inputLen < sizeof(uint32_t) + sizeof(uint16_t)) {
+        PRINT_ERR("Input buffer too small, inputLen = %u.\n", inputLen);
+        return -1;
+    }
+    *sysCapLength = NtohsInter(*(uint16_t *)(input + sizeof(uint32_t)));
+    if (inputLen < sizeof(RPCIDHead) + sizeof(uint32_t) + *sysCapLength) {
+        PRINT_ERR("Input buffer too small, inputLen = %u, sysCapLength = %u.\n",
+                  inputLen, *sysCapLength);
+        return -1;
+    }
+    return 0;
 }

@@ -42,6 +42,8 @@ int32_t ComparePcidWithRpcidString(char *pcidFile, char *rpcidFile, uint32_t typ
 int32_t SeparateSyscapFromString(const char *inputString, uint32_t *osArray, uint32_t osArraySize,
                                  char **priSyscap, uint32_t *priSyscapLen);
 
+int32_t CompareOsSyscap(const uint32_t pcidOsArray[], const uint32_t rpcidOsAarry[]);
+
 #ifdef __cplusplus
 #if __cplusplus
 }

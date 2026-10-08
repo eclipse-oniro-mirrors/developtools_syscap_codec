@@ -16,8 +16,22 @@
 #ifndef COMMON_METHOD_H
 #define COMMON_METHOD_H
 
+#include <stdint.h>
 #include <stdlib.h>
 
+#ifdef __cplusplus
+#if __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+#endif /* __cplusplus */
+
 void SafeFree(char *pointer);
+int32_t ValidateRpcidInput(const char *input, uint32_t inputLen, uint16_t *sysCapLength);
+
+#ifdef __cplusplus
+#if __cplusplus
+}
+#endif /* __cplusplus */
+#endif /* __cplusplus */
 
 #endif

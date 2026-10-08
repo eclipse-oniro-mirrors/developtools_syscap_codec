@@ -203,9 +203,8 @@ static int32_t ParseRpcidToJson(char *input, uint32_t inputLen, cJSON *rpcidJson
 {
     uint32_t i;
     int32_t ret = 0;
-    uint16_t sysCapLength = NtohsInter(*(uint16_t *)(input + sizeof(uint32_t)));
-    if (sysCapLength > inputLen - sizeof(uint32_t)) {
-        PRINT_ERR("Get sysCapLength(%u) error, inputLen = %u\n", sysCapLength, inputLen);
+    uint16_t sysCapLength;
+    if (ValidateRpcidInput(input, inputLen, &sysCapLength) != 0) {
         return -1;
     }
     uint16_t sysCapCount = sysCapLength / SINGLE_FEAT_LEN;
@@ -654,7 +653,12 @@ int32_t CompareOsSyscap(const uint32_t pcidOsArray[], const uint32_t rpcidOsAarr
             if (pos >= allSyscapNum) {
                 break;
             }
-            printf("Missing: %s\n", g_arraySyscap[GetSyscapByIndex(pos)].str);
+            // check GetSyscapByIndex return value to prevent out-of-bounds access
+            int32_t syscapIndex = GetSyscapByIndex(pos);
+            if (syscapIndex < 0) {
+                continue;
+            }
+            printf("Missing: %s\n", g_arraySyscap[syscapIndex].str);
             ossyscapFlag += 1;
         }
     }

@@ -288,7 +288,10 @@ static int32_t ParseRpcidToJson(char *input, uint32_t inputLen, cJSON *rpcidJson
 {
     uint32_t i;
     int32_t ret = 0;
-    uint16_t sysCapLength = NtohsInter(*(uint16_t *)(input + sizeof(uint32_t)));
+    uint16_t sysCapLength;
+    if (ValidateRpcidInput(input, inputLen, &sysCapLength) != 0) {
+        return -1;
+    }
     uint16_t sysCapCount = sysCapLength / SINGLE_FEAT_LEN;
     char *sysCapBegin = input + sizeof(RPCIDHead) + sizeof(uint32_t);
     RPCIDHead *rpcidHeader = (RPCIDHead *)input;
@@ -330,6 +333,8 @@ static int32_t ParseRpcidToJson(char *input, uint32_t inputLen, cJSON *rpcidJson
         ret = -1;
         goto FREE_SYSCAP_OUT;
     }
+    // Ownership of sysCapJson has been transferred to rpcidJson; free it only on the error paths.
+    return ret;
 FREE_SYSCAP_OUT:
     cJSON_Delete(sysCapJson);
     return ret;
