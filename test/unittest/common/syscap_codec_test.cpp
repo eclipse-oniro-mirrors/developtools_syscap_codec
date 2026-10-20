@@ -368,6 +368,48 @@ HWTEST_F(SyscapCodecTest, CompareOsSyscapBreakOnPosOutOfRange, TestSize.Level1)
 }
 
 /*
+ * @tc.name: ComparePcidWithRpcidStringNullInput
+ * @tc.desc: Check ComparePcidWithRpcidString with null input.
+ * @tc.type: FUNC
+ */
+HWTEST_F(SyscapCodecTest, ComparePcidWithRpcidStringNullInput, TestSize.Level1)
+{
+    char pcidString[] = "1792,0";
+    char rpcidString[] = "1792,0";
+    EXPECT_EQ(ComparePcidWithRpcidString(nullptr, rpcidString, TYPE_STRING), -1);
+    EXPECT_EQ(ComparePcidWithRpcidString(pcidString, nullptr, TYPE_STRING), -1);
+}
+
+/*
+ * @tc.name: ComparePcidWithRpcidStringInvalidType
+ * @tc.desc: Check ComparePcidWithRpcidString with invalid type.
+ * @tc.type: FUNC
+ */
+HWTEST_F(SyscapCodecTest, ComparePcidWithRpcidStringInvalidType, TestSize.Level1)
+{
+    char pcidString[] = "1792,0";
+    char rpcidString[] = "1792,0";
+    EXPECT_EQ(ComparePcidWithRpcidString(pcidString, rpcidString, TYPE_STRING + 1), -1);
+}
+
+/*
+ * @tc.name: ComparePcidWithRpcidStringStringType
+ * @tc.desc: Check ComparePcidWithRpcidString with string type input.
+ * @tc.type: FUNC
+ */
+HWTEST_F(SyscapCodecTest, ComparePcidWithRpcidStringStringType, TestSize.Level1)
+{
+    // api version 7 (1792 >> 8), os syscap index 16 / 55 / 60, 2 private syscaps.
+    char pcidString[] = "1792,0,65536,276824064,0,0,0,0,0,0,0,0,0,0,0,0,0,"
+                        "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"
+                        "SystemCapability.vendor.xxxxx1,SystemCapability.device.xxxxx2";
+    char rpcidString[] = "1792,0,65536,276824064,0,0,0,0,0,0,0,0,0,0,0,0,0,"
+                         "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"
+                         "SystemCapability.vendor.xxxxx1,SystemCapability.device.xxxxx2";
+    EXPECT_EQ(ComparePcidWithRpcidString(pcidString, rpcidString, TYPE_STRING), 0);
+}
+
+/*
  * @tc.name: EndianConvert16RoundTrip
  * @tc.desc: Check the 16-bit endian conversion round trip.
  * @tc.type: FUNC
