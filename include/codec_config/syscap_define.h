@@ -418,6 +418,7 @@ typedef enum SystemCapabilityNum {
     MULTIMODALAWARENESS_CAR_AWARENESS,
     CUSTOMIZATION_ASSESSMENTCONFIGURATION,
     SENSORS_SENSOR_SLIM,
+    DISTRIBUTEDDATAMANAGER_DATAFABRIC_ADDRESS,
     // Add before here
     SYSCAP_BASIC_END = 500,
 } SyscapNum;
@@ -820,6 +821,7 @@ const static SyscapWithNum g_arraySyscap[] = {
     {"SystemCapability.MultimodalAwareness.CarAwareness", MULTIMODALAWARENESS_CAR_AWARENESS},
     {"SystemCapability.Customization.AssessmentConfiguration", CUSTOMIZATION_ASSESSMENTCONFIGURATION},
     {"SystemCapability.Sensors.Sensor.Slim", SENSORS_SENSOR_SLIM},
+    {"SystemCapability.DistributedDataManager.DataFabric.Address", DISTRIBUTEDDATAMANAGER_DATAFABRIC_ADDRESS},
 };
 
 #ifdef __cplusplus
