@@ -17,6 +17,12 @@
 {
   global:
     ANI_Constructor;
+    __cfi_check;
+    __cfi_slowpath;
+    __cfi_slowpath_diag;
+    __ubsan_handle_cfi_check_fail;
+    __ubsan_handle_cfi_check_fail_abort;
+    __ubsan_handle_cfi_bad_type;
   local:
     *;
 };
