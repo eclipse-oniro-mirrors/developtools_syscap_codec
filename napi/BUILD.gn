@@ -32,6 +32,11 @@ sources_platform_common = [
 ]
 
 ohos_shared_library("systemcapability") {
+  sanitize = {
+    cfi = true
+    cfi_cross_dso = true
+    debug = false
+  }
   include_dirs = [
     "../src",
     "../interfaces/inner_api",
