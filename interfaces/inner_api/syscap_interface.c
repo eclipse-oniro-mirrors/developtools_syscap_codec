@@ -248,14 +248,21 @@ bool DecodePrivateSyscap(char *input, char (**output)[SINGLE_SYSCAP_LEN], int *o
         if (*inputPos == ',') {
             *bufferPos = '\0';
             if (sprintf_s(*outputArray, SINGLE_SYSCAP_LEN, "SystemCapability.%s", buffer) == -1) {
-                free(outputArray);
-                outputArray = NULL;
+                free(*output);
+                *output = NULL;
+                *outputCnt = 0;
                 return false;
             }
             bufferPos = buffer;
             outputArray++;
             inputPos++;
             continue;
+        }
+        if (bufferPos - buffer >= SINGLE_FEAT_LEN - 1) {
+            free(*output);
+            *output = NULL;
+            *outputCnt = 0;
+            return false;
         }
         *bufferPos++ = *inputPos++;
     }
