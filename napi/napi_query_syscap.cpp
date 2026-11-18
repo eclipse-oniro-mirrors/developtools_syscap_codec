@@ -221,6 +221,7 @@ napi_value QuerySystemCapability(napi_env env, napi_callback_info info)
                 napi_delete_reference(env, asyncContext->callbackRef);
             }
             napi_delete_async_work(env, asyncContext->work);
+            free(asyncContext->value);
             delete asyncContext;
         },
         (void*)asyncContext, &asyncContext->work);
